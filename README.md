@@ -58,13 +58,13 @@ aicommits
 
 `aicommits` passes down unknown flags to `git commit`, so you can pass in [`commit` flags](https://git-scm.com/docs/git-commit).
 
-For example, you can stage all changes in tracked files with as you commit:
+For example, you can stage all changes in tracked files as you commit:
 
 ```sh
 aicommits --all # or -a
 ```
 
-> 👉 **Tip:** Use the `aic` alias if `aicommits` is too long for you.
+> 👉 **Tip:** Use the `aic` alias if `aicommits` is too long for you.
 
 #### Generate multiple recommendations
 
@@ -165,6 +165,19 @@ aicommits config set OPENAI_KEY=<your-api-key> generate=3 locale=en
 
 ### Options
 
+Here's a summary of all available configuration options:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| OPENAI_KEY | Required | Your OpenAI API key |
+| locale | en | The locale for generated commit messages |
+| generate | 1 | Number of commit messages to generate |
+| proxy | - | HTTP/HTTPS proxy for requests |
+| model | gpt-4o-mini | The OpenAI model to use |
+| timeout | 10000 | Timeout for API requests (in milliseconds) |
+| max-length | 50 | Maximum length of generated commit messages |
+| type | "" (Empty string) | Type of commit message to generate |
+
 #### OPENAI_KEY
 
 Required
@@ -197,11 +210,21 @@ aicommits config set proxy=
 
 #### model
 
-Default: `gpt-3.5-turbo`
+Default: `gpt-4o-mini`
 
 The Chat Completions (`/v1/chat/completions`) model to use. Consult the list of models available in the [OpenAI Documentation](https://platform.openai.com/docs/models/model-endpoint-compatibility).
 
-> Tip: If you have access, try upgrading to [`gpt-4`](https://platform.openai.com/docs/models/gpt-4) for next-level code analysis. It can handle double the input size, but comes at a higher cost. Check out OpenAI's website to learn more.
+You can change the model using the following command:
+
+```sh
+aicommits config set model=gpt-3.5-turbo
+```
+
+> Note: The default model is set to `gpt-4o-mini`, which is a smaller version of GPT-4. If you prefer to use a different model, you can change it using the command above.
+
+Note: The availability and performance of models may vary. Always refer to the latest OpenAI documentation for the most up-to-date information on available models.
+
+https://openai.com/api/pricing/
 
 #### timeout
 
@@ -241,7 +264,7 @@ aicommits config set type=
 
 ## How it works
 
-This CLI tool runs `git diff` to grab all your latest code changes, sends them to OpenAI's GPT-3, then returns the AI generated commit message.
+This CLI tool runs `git diff` to grab all your latest code changes, sends them to OpenAI's AI model, then returns the AI generated commit message.
 
 Video coming soon where I rebuild it from scratch to show you how to easily build your own CLI tools powered by AI.
 
